@@ -1,5 +1,6 @@
 import { apiFetch } from "../_lib/api";
 import { StopTableRow } from "./StopTableRow"; // Row 컴포넌트 import
+import Link from "next/link";
 
 interface Stop {
   id: number,
@@ -31,9 +32,9 @@ export default async function Page(){
           ))}
         </tbody>
       </table>
-      <button className="w-full max-w-md flex items-center justify-center gap-2 bg-cyan-500 text-white font-semibold py-3 px-8 rounded-xl shadow-md hover:bg-cyan-600 transition">
+      <Link href="/stops/new" className="w-full max-w-md flex items-center justify-center gap-2 bg-cyan-500 text-white font-semibold py-3 px-8 rounded-xl shadow-md hover:bg-cyan-600 transition">
         <span>➕</span> 터미널 추가
-      </button>
+      </Link>
     </div>
   )
 }
