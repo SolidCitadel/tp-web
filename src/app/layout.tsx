@@ -26,23 +26,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-gray-50 flex flex-col items-center`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-gray-50`}
       >
-        <div className="w-full max-w-md bg-white shadow-lg rounded-xl mt-8 mb-8">
-          <header className="px-8 py-6 bg-gradient-to-r from-cyan-500 to-emerald-500 rounded-t-xl shadow-md">
-            <h1>
-              <Link className="text-white text-2xl font-extrabold tracking-tight" href="/">
-                Transit Planner
-              </Link>
-            </h1>
-          </header>
-          <main>
-            {children}
-          </main>
-          <footer>
-
-          </footer>
-        </div>
+        <header className="w-full px-4 py-4 bg-gradient-to-r from-cyan-500 to-emerald-500 shadow-md flex items-center">
+          <h1>
+            <Link className="text-white text-xl font-extrabold tracking-tight" href="/">
+              Transit Planner
+            </Link>
+          </h1>
+        </header>
+        <main className="w-full flex flex-col items-center px-2 py-4">
+          {children}
+        </main>
       </body>
     </html>
   );
