@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { apiFetch } from "../_lib/api";
+import { StopTableRow } from "./StopTableRow"; // Row 컴포넌트 import
 
 interface Stop {
   id: number,
@@ -22,13 +22,12 @@ export default async function Page(){
         </thead>
         <tbody>
           {stops.map((stop, idx) => (
-            <Link href={`/stops/${stop.id}`} key={stop.id} legacyBehavior>
-              <tr className={`cursor-pointer hover:bg-yellow-50 ${idx % 2 === 0 ? "bg-gray-50" : ""}`}>
-                <td className={`${idx === stops.length - 1 ? "" : "border-b border-gray-200"} p-2`}>{stop.id}</td>
-                <td className={`${idx === stops.length - 1 ? "" : "border-b border-gray-200"} p-2`}>{stop.name}</td>
-                <td className={`${idx === stops.length - 1 ? "" : "border-b border-gray-200"} p-2`}>{stop.transportType}</td>
-              </tr>
-            </Link>
+            <StopTableRow
+              key={stop.id}
+              stop={stop}
+              isLast={idx === stops.length - 1}
+              isEven={idx % 2 === 0}
+            />
           ))}
         </tbody>
       </table>
