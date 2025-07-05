@@ -26,12 +26,12 @@ export function StopEditForm({ stop }: StopEditFormProps) {
     e.preventDefault();
     setLoading(true);
     await apiSend(`/stops/${stop.id}`, {
-      method: "PATCH",
+      method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, transportType }),
     });
     setLoading(false);
-    router.refresh();
+    router.push("/stops");
   }
 
   async function handleDelete() {
