@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { apiSend } from "@/app/_lib/api";
+import { browserApiClient } from "@/lib/api-client";
 
 const TRANSPORT_TYPES = ["BUS", "SUBWAY", "TRAIN"];
 
@@ -15,13 +15,12 @@ export function StopCreateForm() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
-    await apiSend("/stops", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, transportType }),
+    await browserApiClient.post("/api/stops", {
+      name,
+      transportType,
     });
     setLoading(false);
-    router.push("/stops");
+    router.push("/admin/stops");
   }
 
   return (
@@ -52,7 +51,7 @@ export function StopCreateForm() {
       </div>
       <div className="flex gap-2">
         <button className="bg-cyan-100 py-2 px-4 rounded-lg min-w-[80px]" type="submit" disabled={loading}>추가</button>
-        <Link href="/stops" className="bg-amber-100 py-2 px-4 rounded-lg text-center min-w-[80px]">취소</Link>
+        <Link href="/admin/stops" className="bg-amber-100 py-2 px-4 rounded-lg text-center min-w-[80px]">취소</Link>
       </div>
     </form>
   );

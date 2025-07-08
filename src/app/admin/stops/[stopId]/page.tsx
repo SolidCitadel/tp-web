@@ -1,5 +1,5 @@
-import { apiFetch } from "@/app/_lib/api";
 import { StopEditForm } from "./StopEditForm";
+import { getServerApiClient } from "@/lib/api-server";
 
 interface StopDetail {
   id: number,
@@ -13,6 +13,7 @@ type Params = Promise<{stopId: string}>
 
 export default async function Page({params}: { params: Params }) {
   const { stopId } = await params;
-  const stop = await apiFetch<StopDetail>(`/stops/${stopId}`);
+  const apiClient = await getServerApiClient();
+  const { data: stop } = await apiClient<StopDetail>(`/api/stops/${stopId}`);
   return <StopEditForm stop={stop} />;
 }

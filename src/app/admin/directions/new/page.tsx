@@ -1,5 +1,5 @@
-import { apiFetch } from "@/app/_lib/api";
 import { DirectionCreateForm } from "./DirectionCreateForm";
+import { getServerApiClient } from "@/lib/api-server";
 
 interface Stop {
   id: number;
@@ -8,6 +8,7 @@ interface Stop {
 }
 
 export default async function Page() {
-  const stops = await apiFetch<Stop[]>("/stops");
+  const apiClient = await getServerApiClient();
+  const { data: stops } = await apiClient<Stop[]>("/api/stops");
   return <DirectionCreateForm stops={stops} />;
 }

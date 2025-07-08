@@ -1,5 +1,5 @@
-import { apiFetch } from "@/app/_lib/api";
 import { DirectionEditForm } from "./DirectionEditForm";
+import { getServerApiClient } from "@/lib/api-server";
 
 interface Stop {
   id: number;
@@ -20,7 +20,8 @@ type Params = Promise<{ directionId: string }>;
 
 export default async function Page({ params }: { params: Params }) {
   const { directionId } = await params;
-  const direction = await apiFetch<DirectionDetail>(`/directions/${directionId}`);
-  const stops = await apiFetch<Stop[]>(`/stops`);
+  const apiClient = await getServerApiClient();
+  const { data: direction } = await apiClient<DirectionDetail>(`/api/directions/${directionId}`);
+  const { data: stops } = await apiClient<Stop[]>(`/api/stops`);
   return <DirectionEditForm direction={direction} stops={stops} />;
 }

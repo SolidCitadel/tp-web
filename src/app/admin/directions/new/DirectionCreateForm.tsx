@@ -1,7 +1,7 @@
 'use client';
 import { useState } from "react";
 import Link from "next/link";
-import { apiSend } from "@/app/_lib/api";
+import { browserApiClient } from "@/lib/api-client";
 
 interface Stop {
   id: number;
@@ -32,15 +32,11 @@ export function DirectionCreateForm({ stops }: DirectionCreateFormProps) {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
-    await apiSend("/directions", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+    await browserApiClient.post("/api/directions",{
         fare,
         requiredTime,
         departureStopId,
         arrivalStopId,
-      }),
     });
     setLoading(false);
     window.location.href = "/directions";
