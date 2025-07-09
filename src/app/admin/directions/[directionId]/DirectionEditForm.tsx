@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import DepartureTimesModal from "./DepartureTimesModal";
 import axios from "axios";
+import { useHourMinute } from "@/hooks/useHourMinute";
 
 interface Stop {
   id: number;
@@ -24,16 +25,11 @@ export function DirectionEditForm({ direction, stops }: { direction: DirectionDe
   const router = useRouter();
   const [departureStopId, setDepartureStopId] = useState(direction.departureStop.id);
   const [arrivalStopId, setArrivalStopId] = useState(direction.arrivalStop.id);
-  const [hour, setHour] = useState(() => {
-    const [h] = direction.requiredTime.split(":");
-    return Number(h);
-  });
-  const [minute, setMinute] = useState(() => {
-    const [, m] = direction.requiredTime.split(":");
-    return Number(m);
-  });
   const [fare, setFare] = useState(direction.fare);
   const [loading, setLoading] = useState(false);
+  // useHourMinute 훅 사용 (초기값 파싱)
+  const [initHour, initMinute] = direction.requiredTime.split(":").map(Number);
+  const { hour, setHour, minute, setMinute, timeString } = useHourMinute(initHour, initMinute);
   // 출발 시간표 모달 상태 및 시간표 상태 추가
   const [modalOpen, setModalOpen] = useState(false);
   const [departureTimes, setDepartureTimes] = useState<string[]>(direction.departureTimes);
@@ -43,7 +39,7 @@ export function DirectionEditForm({ direction, stops }: { direction: DirectionDe
     setLoading(true);
     await axios.put(`/api/directions/${direction.id}`, {
       fare,
-      requiredTime: `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}:00`,
+      requiredTime: timeString,
       departureStopId,
       arrivalStopId,
     });
@@ -142,12 +138,7 @@ export function DirectionEditForm({ direction, stops }: { direction: DirectionDe
                     min={0}
                     max={23}
                     value={hour}
-                    onChange={e => {
-                      let h = Number(e.target.value);
-                      if (h < 0) h = 0;
-                      if (h > 23) h = 23;
-                      setHour(h);
-                    }}
+                    onChange={e => setHour(Number(e.target.value))}
                     className="w-20 px-4 py-3 border border-gray-300 rounded-xl bg-white/50 backdrop-blur-sm focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 text-center"
                     aria-label="시"
                   />
@@ -157,12 +148,7 @@ export function DirectionEditForm({ direction, stops }: { direction: DirectionDe
                     min={0}
                     max={59}
                     value={minute}
-                    onChange={e => {
-                      let m = Number(e.target.value);
-                      if (m < 0) m = 0;
-                      if (m > 59) m = 59;
-                      setMinute(m);
-                    }}
+                    onChange={e => setMinute(Number(e.target.value))}
                     className="w-20 px-4 py-3 border border-gray-300 rounded-xl bg-white/50 backdrop-blur-sm focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 text-center"
                     aria-label="분"
                   />
