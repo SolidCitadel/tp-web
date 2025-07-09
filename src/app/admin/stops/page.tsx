@@ -10,7 +10,7 @@ interface Stop {
 
 export default async function Page(){
   const apiClient = await getServerApiClient();
-  const response = await apiClient.get<Stop[]>('/api/stops');
+  const response = await apiClient.get<Stop[]>('/api/admin/stops');
   const stops = response.data;
 
   return (

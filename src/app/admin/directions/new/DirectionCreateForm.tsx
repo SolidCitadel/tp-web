@@ -34,7 +34,7 @@ export function DirectionCreateForm({ stops }: DirectionCreateFormProps) {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
-    await axios.post("/api/directions",{
+    await axios.post("/api/admin/directions",{
         fare,
         requiredTime: timeString,
         departureStopId,

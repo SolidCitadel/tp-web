@@ -19,7 +19,7 @@ interface Direction {
 
 export default async function Page() {
   const apiClient = await getServerApiClient();
-  const { data: directions } = await apiClient.get<Direction[]>("/api/directions");
+  const { data: directions } = await apiClient.get<Direction[]>("/api/admin/directions");
 
   return (
     <div className="p-6">

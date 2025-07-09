@@ -9,6 +9,6 @@ interface Stop {
 
 export default async function Page() {
   const apiClient = await getServerApiClient();
-  const { data: stops } = await apiClient<Stop[]>("/api/stops");
+  const { data: stops } = await apiClient<Stop[]>("/api/admin/stops");
   return <DirectionCreateForm stops={stops} />;
 }

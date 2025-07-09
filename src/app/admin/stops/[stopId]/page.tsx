@@ -14,6 +14,6 @@ type Params = Promise<{stopId: string}>
 export default async function Page({params}: { params: Params }) {
   const { stopId } = await params;
   const apiClient = await getServerApiClient();
-  const { data: stop } = await apiClient<StopDetail>(`/api/stops/${stopId}`);
+  const { data: stop } = await apiClient<StopDetail>(`/api/admin/stops/${stopId}`);
   return <StopEditForm stop={stop} />;
 }

@@ -22,7 +22,7 @@ export function addCommonInterceptors(instance: AxiosInstance) {
         async (error: AxiosError) => {
             const originalRequest = error.config as InternalAxiosRequestConfig;
 
-            if (error.response?.status === 401 && originalRequest.url !== '/api/reissue'){
+            if (error.response?.status === 401 && originalRequest.url !== '/api/admin/reissue'){
                 if(isRefreshing){
                     return new Promise((resolve, reject) => {
                         failedQueue.push({resolve, reject});
@@ -36,7 +36,7 @@ export function addCommonInterceptors(instance: AxiosInstance) {
                 isRefreshing = true;
 
                 try {
-                    await instance.post('/api/reissue');
+                    await instance.post('/api/admin/reissue');
                     processQueue(null);
                     return instance(originalRequest);
                 } catch (refreshError){

@@ -21,7 +21,7 @@ type Params = Promise<{ directionId: string }>;
 export default async function Page({ params }: { params: Params }) {
   const { directionId } = await params;
   const apiClient = await getServerApiClient();
-  const { data: direction } = await apiClient<DirectionDetail>(`/api/directions/${directionId}`);
-  const { data: stops } = await apiClient<Stop[]>(`/api/stops`);
+  const { data: direction } = await apiClient<DirectionDetail>(`/api/admin/directions/${directionId}`);
+  const { data: stops } = await apiClient<Stop[]>(`/api/admin/stops`);
   return <DirectionEditForm direction={direction} stops={stops} />;
 }

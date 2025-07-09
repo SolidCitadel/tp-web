@@ -19,7 +19,7 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      const response = await axios.post('/api/login', {
+      const response = await axios.post('/api/admin/login', {
         username,
         password,
       });

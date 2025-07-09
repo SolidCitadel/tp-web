@@ -19,7 +19,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const checkAuthStatus = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get('/api/me'); 
+      const response = await axios.get('/api/admin/me'); 
       if (response.status === 200) {
         setUser(response.data);
       }
@@ -38,7 +38,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // 로그아웃 함수
   const logout = async () => {
     try {
-      await axios.post('/api/logout');
+      await axios.post('/api/admin/logout');
     } catch (error) {
       console.error("Logout failed", error);
     } finally {

@@ -15,7 +15,7 @@ export function StopCreateForm() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
-    await axios.post("/api/stops", {
+    await axios.post("/api/admin/stops", {
       name,
       transportType,
     });
