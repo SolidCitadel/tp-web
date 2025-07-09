@@ -42,6 +42,7 @@ export function addCommonInterceptors(instance: AxiosInstance) {
                 } catch (refreshError){
                     processQueue(refreshError as AxiosError, null);
                     console.error('Session expired. Please login again.');
+                    // redirect 추가
                     return Promise.reject(refreshError);
                 } finally {
                     isRefreshing = false;
