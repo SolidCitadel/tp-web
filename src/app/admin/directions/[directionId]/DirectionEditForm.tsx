@@ -2,8 +2,8 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { browserApiClient } from "@/lib/api-client";
 import DepartureTimesModal from "./DepartureTimesModal";
+import axios from "axios";
 
 interface Stop {
   id: number;
@@ -41,7 +41,7 @@ export function DirectionEditForm({ direction, stops }: { direction: DirectionDe
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
-    await browserApiClient.put(`/api/directions/${direction.id}`, {
+    await axios.put(`/api/directions/${direction.id}`, {
       fare,
       requiredTime: `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}:00`,
       departureStopId,
@@ -54,7 +54,7 @@ export function DirectionEditForm({ direction, stops }: { direction: DirectionDe
   async function handleDelete() {
     if (!confirm("정말 삭제하시겠습니까?")) return;
     setLoading(true);
-    await browserApiClient.delete(`/api/directions/${direction.id}`);
+    await axios.delete(`/api/directions/${direction.id}`);
     setLoading(false);
     router.push("/admin/directions");
   }
@@ -62,7 +62,7 @@ export function DirectionEditForm({ direction, stops }: { direction: DirectionDe
   // 시간표 저장 핸들러
   async function handleSaveDepartureTimes(times: string[]) {
     setLoading(true);
-    await browserApiClient.put(`/api/directions/${direction.id}/departure-times`, times);
+    await axios.put(`/api/directions/${direction.id}/departure-times`, times);
     setDepartureTimes(times);
     setLoading(false);
   }

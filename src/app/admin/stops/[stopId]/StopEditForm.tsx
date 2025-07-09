@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { browserApiClient } from "@/lib/api-client";
+import axios from "axios";
 
 interface StopDetail {
   id: number;
@@ -25,7 +25,7 @@ export function StopEditForm({ stop }: StopEditFormProps) {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
-    await browserApiClient.put(`/api/stops/${stop.id}`, {
+    await axios.put(`/api/stops/${stop.id}`, {
       name,
       transportType
     });
@@ -36,7 +36,7 @@ export function StopEditForm({ stop }: StopEditFormProps) {
   async function handleDelete() {
     if (!confirm("정말 삭제하시겠습니까?")) return;
     setLoading(true);
-    await browserApiClient.delete(`/api/stops/${stop.id}`);
+    await axios.delete(`/api/stops/${stop.id}`);
     setLoading(false);
     router.push("/admin/stops");
   }

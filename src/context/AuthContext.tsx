@@ -1,8 +1,8 @@
 'use client';
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { browserApiClient } from '@/lib/api-client';
 import { User, AuthContextType } from '@/types/auth';
+import axios from 'axios';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -19,7 +19,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const checkAuthStatus = async () => {
     setIsLoading(true);
     try {
-      const response = await browserApiClient.get('/api/me'); 
+      const response = await axios.get('/api/me'); 
       if (response.status === 200) {
         setUser(response.data);
       }
@@ -38,7 +38,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // 로그아웃 함수
   const logout = async () => {
     try {
-      await browserApiClient.post('/api/logout');
+      await axios.post('/api/logout');
     } catch (error) {
       console.error("Logout failed", error);
     } finally {

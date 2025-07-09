@@ -1,7 +1,7 @@
 'use client';
 import { useState } from "react";
 import Link from "next/link";
-import { browserApiClient } from "@/lib/api-client";
+import axios from "axios";
 
 interface Stop {
   id: number;
@@ -32,7 +32,7 @@ export function DirectionCreateForm({ stops }: DirectionCreateFormProps) {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
-    await browserApiClient.post("/api/directions",{
+    await axios.post("/api/directions",{
         fare,
         requiredTime,
         departureStopId,

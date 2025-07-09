@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { browserApiClient } from "@/lib/api-client";
+import axios from "axios";
 
 const TRANSPORT_TYPES = ["BUS", "SUBWAY", "TRAIN"];
 
@@ -15,7 +15,7 @@ export function StopCreateForm() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
-    await browserApiClient.post("/api/stops", {
+    await axios.post("/api/stops", {
       name,
       transportType,
     });
