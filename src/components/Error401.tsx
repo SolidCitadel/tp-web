@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 export default function Error401() {
   const router = useRouter();
   useEffect(() => {
-    fetch("/api/admin/reissue", { method: "POST", credentials: "include" })
+    fetch("/api/user/reissue", { method: "POST", credentials: "include" })
       .then(res => {
         if (res.ok) {
           router.refresh();

@@ -3,30 +3,46 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { User, AuthContextType } from '@/types/auth';
 import axios from 'axios';
+import { usePathname } from "next/navigation";
+import { PROTECTED_ROUTES } from '@/config/routes';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isChecking, setIsChecking] = useState(false);
+  const pathname = usePathname();
+  const shouldCheckAuth = PROTECTED_ROUTES.some(route => pathname.startsWith(route));
 
-  // 애플리케이션 로드 시 인증 상태 확인
   useEffect(() => {
-    checkAuthStatus();
-  }, []);
+    if (shouldCheckAuth) {
+      checkAuthStatus();
+    } else {
+      setIsLoading(false);
+    }
+  }, [pathname]);
 
   // 인증 상태 확인 함수
   const checkAuthStatus = async () => {
+    if (isChecking) return; // 이미 체크 중이면 중복 호출 방지
+    
+    setIsChecking(true);
     setIsLoading(true);
     try {
-      const response = await axios.get('/api/admin/me'); 
+      const response = await axios.get('/api/user/me'); 
       if (response.status === 200) {
         setUser(response.data);
       }
     } catch (error) {
+      if (axios.isAxiosError(error))
+        window.location.href = `/error/${error.response?.status || 500}`;
+      else
+        window.location.href = `/error/500`;
       setUser(null);
     } finally {
       setIsLoading(false);
+      setIsChecking(false);
     }
   };
 
@@ -38,7 +54,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // 로그아웃 함수
   const logout = async () => {
     try {
-      await axios.post('/api/admin/logout');
+      await axios.post('/api/user/logout');
     } catch (error) {
       console.error("Logout failed", error);
     } finally {

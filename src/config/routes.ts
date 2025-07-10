@@ -1,0 +1,1 @@
+export const PROTECTED_ROUTES = ['/admin', '/dashboard'] as const; 

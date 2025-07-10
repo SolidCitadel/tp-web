@@ -1,5 +1,5 @@
 import axios from 'axios';
-// import { addCommonInterceptors } from './api-common';
+import { addCommonInterceptors } from './api-common';
 
 // 쿠키를 포함한 서버용 axios 생성 함수
 export const createServerApiClient = (cookies?: string) => {
