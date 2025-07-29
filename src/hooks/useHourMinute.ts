@@ -19,4 +19,26 @@ export function useHourMinute(initialHour = 0, initialMinute = 0) {
     setMinute: setMinuteSafe,
     timeString,
   };
-} 
+}
+
+// 시간 표기 유틸리티 함수들
+export const formatTime = (timeString: string): string => {
+  const [hourStr, minuteStr] = timeString.split(':');
+  const hour = parseInt(hourStr) || 0;
+  const minute = parseInt(minuteStr) || 0;
+  return `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+};
+
+export const formatDuration = (timeString: string): string => {
+  const [hourStr, minuteStr] = timeString.split(':');
+  const hour = parseInt(hourStr) || 0;
+  const minute = parseInt(minuteStr) || 0;
+  
+  if (hour === 0) {
+    return `${minute}분`;
+  } else if (minute === 0) {
+    return `${hour}시간`;
+  } else {
+    return `${hour}시간 ${minute}분`;
+  }
+}; 
