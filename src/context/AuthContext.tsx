@@ -35,10 +35,36 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setUser(response.data);
       }
     } catch (error) {
-      if (axios.isAxiosError(error))
+      if (axios.isAxiosError(error) && error.response?.status === 401) {
+        // 401이면 reissue 시도
+        try {
+          const reissueRes = await fetch('/api/user/reissue', { method: 'POST', credentials: 'include' });
+          if (reissueRes.ok) {
+            // 재인증 성공: 다시 me 호출
+            try {
+              const retryRes = await axios.get('/api/user/me');
+              if (retryRes.status === 200) {
+                setUser(retryRes.data);
+                setIsLoading(false);
+                setIsChecking(false);
+                return;
+              }
+            } catch {
+              // 재시도 실패: 에러 페이지 이동
+              window.location.href = `/error/401`;
+            }
+          } else {
+            // 재인증 실패: 에러 페이지 이동
+            window.location.href = `/error/401`;
+          }
+        } catch {
+          window.location.href = `/error/401`;
+        }
+      } else if (axios.isAxiosError(error)) {
         window.location.href = `/error/${error.response?.status || 500}`;
-      else
+      } else {
         window.location.href = `/error/500`;
+      }
       setUser(null);
     } finally {
       setIsLoading(false);
