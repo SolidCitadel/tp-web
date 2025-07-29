@@ -42,3 +42,8 @@ next-env.d.ts
 
 *.code-workspace
 certificates
+
+.cursorrules
+.cursorignore
+/.cursor
+/.vscode
