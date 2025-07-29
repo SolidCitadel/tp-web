@@ -42,6 +42,18 @@ export default function DashboardPage() {
               마이페이지
             </Link>
           </div>
+
+          {/* 계획 조회 카드 */}
+          <div className="bg-white rounded-lg shadow-md p-6">
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">계획 조회</h2>
+            <p className="text-gray-600 mb-4">나의 계획을 확인하고 수정할 수 있습니다.</p>
+            <Link 
+              href="/plans" 
+              className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition duration-200"
+            >
+              계획 목록
+            </Link>
+          </div>
         </div>
       </div>
     </div>

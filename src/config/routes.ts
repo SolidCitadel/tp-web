@@ -1,1 +1,1 @@
-export const PROTECTED_ROUTES = ['/admin', '/dashboard'] as const; 
+export const PROTECTED_ROUTES = ['/admin', '/dashboard', '/plans', '/routes'] as const; 
