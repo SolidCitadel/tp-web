@@ -17,7 +17,7 @@ export default function SignupPage() {
     setIsLoading(true);
 
     try {
-      const response = await axios.post('/api/admin/signup', {
+      const response = await axios.post('/api/user/signup', {
         username,
         password,
       });
